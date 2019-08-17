@@ -9,12 +9,28 @@
 </head>
 <body>
   <nav>
-    <a href="/celebrities"> All Celebrities</a>
-    <a href="/celebrities/new"> Add a Celebrity</a>
-    <a href="/movies"> All Movies</a>
-    <a href="/movies/new"> Add a Movie</a>
-    
+    <div>
+      <a href="/celebrities"> Celebrities</a>
+      <a href="/movies">Movies</a>
+    </div>
+  
+    <div>
+      
+      {{#if currentUser}}
+        <a href="/userprofile"><h3>{{currentUser.username}}</h3></a>
+        <a href="/logout"> Logout</a>
+      {{else}}
+        <a href="/login"> Login</a>
+        <a href="/signup"> Create an Account</a>
+      {{/if}}
+      
+    </div>
   </nav>
+  <div>
+    {{#if errorMessage}}
+        <h4>{{errorMessage}}</h4>
+    {{/if}}
+  </div>
 
   {{{body}}}
 
