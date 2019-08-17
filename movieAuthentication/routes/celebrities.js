@@ -6,7 +6,7 @@ router.get("/celebrities", (req, res, next) => {
   Celebrity
     .find()
     .then(celebrities => {
-      res.render('celebrities/index', celebrities)
+      res.render('celebrities/index', {celebrities})
     })
     .catch(err => console.log("There was an error returning the celebrities", err))
 })
@@ -26,7 +26,12 @@ router.get("/celebrities/new", (req, res, next) => {
 
 router.post("/celebrities", (req, res, next) => {
   Celebrity
-  .create(req.body)
+  .create({
+    name: req.body.name,
+    occupation: req.body.occupation,
+    catchPhrase: req.body.catchPhrase,
+    user: req.user._id
+  })
   .then(newCelebrity => {
     console.log(newCelebrity)
     res.redirect("/celebrities")})
