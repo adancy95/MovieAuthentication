@@ -4,7 +4,11 @@ const Schema = mongoose.Schema;
 const movieSchema =  new Schema({
   title: String,
   genre: String,
-  plot: String
+  plot: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 const Movie = mongoose.model('Movie', movieSchema);
