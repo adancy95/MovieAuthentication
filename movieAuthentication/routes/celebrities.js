@@ -13,7 +13,7 @@ router.get("/celebrities", (req, res, next) => {
 
 router.get("/celebrities/details/:id", (req, res, next) => {
   Celebrity
-    .findById(req.params.id)
+    .findById(req.params.id).populate('user')
     .then(celebrity => {
       res.render('celebrities/show', {celebrity})
     })
@@ -21,6 +21,10 @@ router.get("/celebrities/details/:id", (req, res, next) => {
 })
 
 router.get("/celebrities/new", (req, res, next) => {
+  if(!req.user){
+    req.flash('error', 'Login to create a new celebrity');
+    res.redirect("/celebrities")
+  }
   res.render('celebrities/new' )
 })
 
@@ -33,7 +37,6 @@ router.post("/celebrities", (req, res, next) => {
     user: req.user._id
   })
   .then(newCelebrity => {
-    console.log(newCelebrity)
     res.redirect("/celebrities")})
   .catch(err => {
     res.render("celebrities/new")
@@ -51,7 +54,13 @@ router.post("/celebrities/delete/:id", (req, res, next) => {
 router.get("/celebrities/edit/:id", (req, res, next) => {
   Celebrity
   .findById(req.params.id)
-  .then(celebrity => {res.render("celebrities/edit", celebrity)})
+  .then(celebrity => {
+    if(celebrity.user.equals(req.user._id)){
+      res.render("celebrities/edit", celebrity)
+    } else{
+      res.redirect("/celebrities")
+    }
+  })
   .catch(err => console.log("There was an error finding the celebrity", err))
 })
 
