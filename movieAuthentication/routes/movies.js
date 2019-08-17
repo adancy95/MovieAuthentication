@@ -6,7 +6,8 @@ router.get("/movies", (req, res, next) => {
   Movie
     .find()
     .then(movies => {
-      res.render('movies/index', movies)
+      console.log(movies)
+      res.render('movies/index', {movies})
     })
     .catch(err => console.log("There was an error returning the celebrities", err))
 })
@@ -26,7 +27,11 @@ router.get("/movies/new", (req, res, next) => {
 
 router.post("/movies", (req, res, next) => {
   Movie
-  .create(req.body)
+  .create({
+    title: req.body.title,
+    genre: req.body.genre,
+    plot: req.body.plot,
+    user: req.user._id})
   .then(newMovie => {
     console.log(newMovie)
     res.redirect("/movies")})
