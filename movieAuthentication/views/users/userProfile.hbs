@@ -1,0 +1,36 @@
+<h2>Hello {{user.username}}!</h2>
+
+
+<h2>Here are your favorite Celebrities</h2>
+<button><a href="/celebrities/new"> Add a Celebrity</a></button>
+<ul>
+     {{#each celebrities}}
+    <li>
+       <h5> <a href="/celebrities/details/{{this._id}}">{{this.name}}</a></h5>
+       <form action="celebrities/delete/{{this._id}}" method="POST">
+       <button>Delete Celebrity</button>
+       </form>
+       <form action="celebrities/edit/{{this._id}}" method="GET">
+       <button>Edit Celebrity</button>
+       </form>
+    </li>
+      {{/each}}
+  </ul>
+
+<h2>Here are your favorite Movies</h2>
+  <button><a href="/movies/new"> Add a Movie</a></button>
+  <ul>
+    {{#each movies}}
+      <li>
+       <h5> <a href="/movies/details/{{this._id}}">{{this.title}}</a></h5>
+       <form action="movies/delete/{{this._id}}" method="POST">
+       <button>Delete Movie</button>
+       </form>
+       <form action="movies/edit/{{this._id}}" method="GET">
+       <button>Edit Movie</button>
+       </form>
+
+      </li>
+    {{/each}}
+  </ul>   
+</div>
