@@ -14,7 +14,7 @@ router.get("/movies", (req, res, next) => {
 
 router.get("/movies/details/:id", (req, res, next) => {
   Movie
-    .findById(req.params.id)
+    .findById(req.params.id).populate('user')
     .then(movie => {
       res.render('movies/show', {movie})
     })
@@ -22,6 +22,10 @@ router.get("/movies/details/:id", (req, res, next) => {
 })
 
 router.get("/movies/new", (req, res, next) => {
+  if(!req.user){
+    req.flash('error', 'Login to Add a Movie');
+    res.redirect("/movies");
+  }
   res.render('movies/new' )
 })
 
@@ -33,7 +37,6 @@ router.post("/movies", (req, res, next) => {
     plot: req.body.plot,
     user: req.user._id})
   .then(newMovie => {
-    console.log(newMovie)
     res.redirect("/movies")})
   .catch(err => {
     res.render("movies/new")
@@ -51,7 +54,13 @@ router.post("/movies/delete/:id", (req, res, next) => {
 router.get("/movies/edit/:id", (req, res, next) => {
   Movie
   .findById(req.params.id)
-  .then(movie => {res.render("movies/edit", movie)})
+  .then(movie => {
+    if(movie.user.equals(req.user._id)){
+      res.render("movies/edit", movie)
+    } else {
+      res.redirect("/movies")
+    }
+  })
   .catch(err => console.log("There was an error finding the movie", err))
 })
 
