@@ -8,7 +8,11 @@ const movieSchema =  new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }
+  }, 
+  cast : [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Celebrity'
+  }]
 })
 
 const Movie = mongoose.model('Movie', movieSchema);
