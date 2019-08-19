@@ -9,5 +9,12 @@
   <label for="movie-plot">Plot:</label>
   <input type="text" name="plot" id="movie-plot">
 
+  <h2>Cast and Crew</h2>
+  {{#each celebrities}}
+  <div>
+    <input type="checkbox" name="cast" value="{{this._id}}">{{this.name}}
+  </div>
+  {{/each}}
+
   <input type="submit" value="save" >
 </form>
